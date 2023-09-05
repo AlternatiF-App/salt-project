@@ -1,16 +1,18 @@
+import { SyntheticEvent } from 'react'
 import { HiEye, HiEyeOff } from 'react-icons/hi'
 
 interface InputWithLabelProps {
   label: string
-  value: string
   type: string
   placeholder: string
+  onChange: Function
   showPassword?: boolean
   handleShowPassword?: () => void
 }
 
 const InputWithLabel = (props: InputWithLabelProps) => {
-  const { label, value, type, placeholder, showPassword, handleShowPassword } = props
+  const { label, type, placeholder, onChange, showPassword, handleShowPassword } = props
+
   return (
     <div>
       <label className='font-semibold text-sm 2xl:text-base'>
@@ -19,7 +21,10 @@ const InputWithLabel = (props: InputWithLabelProps) => {
       <div className='mt-2 relative'>
         <input
           className='outline-none px-4 py-2 border border-secondary rounded-lg w-full text-sm 2xl:text-base'
-          value={value}
+          onChange={(e: SyntheticEvent) => {
+            const event = e.target as HTMLInputElement
+            onChange(event.value)
+          }}
           type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
           placeholder={placeholder}
         />
